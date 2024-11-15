@@ -1450,7 +1450,7 @@ impl Tab {
         if self.tiled_panes.fullscreen_is_active() {
             self.toggle_active_pane_fullscreen(client_id);
         }
-        if self.tiled_panes.can_split_pane_horizontally(client_id) {
+        if true || self.tiled_panes.can_split_pane_horizontally(client_id) {
             if let PaneId::Terminal(term_pid) = pid {
                 let next_terminal_position = self.get_next_terminal_position();
                 let new_terminal = TerminalPane::new(
@@ -1510,7 +1510,7 @@ impl Tab {
         if self.tiled_panes.fullscreen_is_active() {
             self.toggle_active_pane_fullscreen(client_id);
         }
-        if self.tiled_panes.can_split_pane_vertically(client_id) {
+        if true || self.tiled_panes.can_split_pane_vertically(client_id) {
             if let PaneId::Terminal(term_pid) = pid {
                 let next_terminal_position = self.get_next_terminal_position();
                 let new_terminal = TerminalPane::new(
@@ -2639,15 +2639,15 @@ impl Tab {
         }
     }
     fn close_down_to_max_terminals(&mut self) -> Result<()> {
-        if let Some(max_panes) = self.max_panes {
-            let terminals = self.get_tiled_pane_ids();
-            for &pid in terminals.iter().skip(max_panes - 1) {
-                self.senders
-                    .send_to_pty(PtyInstruction::ClosePane(pid))
-                    .context("failed to close down to max terminals")?;
-                self.close_pane(pid, false, None);
-            }
-        }
+        // if let Some(max_panes) = self.max_panes {
+        //     let terminals = self.get_tiled_pane_ids();
+        //     for &pid in terminals.iter().skip(max_panes - 1) {
+        //         self.senders
+        //             .send_to_pty(PtyInstruction::ClosePane(pid))
+        //             .context("failed to close down to max terminals")?;
+        //         self.close_pane(pid, false, None);
+        //     }
+        // }
         Ok(())
     }
     pub fn get_tiled_pane_ids(&self) -> Vec<PaneId> {

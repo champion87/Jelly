@@ -772,6 +772,10 @@ impl TryFrom<Action> for ProtobufAction {
                 name: ProtobufActionName::FocusPreviousPane as i32,
                 optional_payload: None,
             }),
+            Action::Fourify => Ok(ProtobufAction {
+                name: ProtobufActionName::Fourify as i32,
+                optional_payload: None,
+            }),
             Action::SwitchFocus => Ok(ProtobufAction {
                 name: ProtobufActionName::SwitchFocus as i32,
                 optional_payload: None,

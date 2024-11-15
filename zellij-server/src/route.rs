@@ -259,6 +259,10 @@ pub(crate) fn route_action(
                 .send_to_screen(ScreenInstruction::TogglePaneFrames)
                 .with_context(err_context)?;
         },
+        Action::Fourify => 
+        {
+            PtyInstruction::SpawnTerminalVertically(default_shell.clone(), Some(String::from("GG")), client_id);
+        },
         Action::NewPane(direction, name, start_suppressed) => {
             let shell = default_shell.clone();
             let pty_instr = match direction {

@@ -872,34 +872,35 @@ impl TiledPaneLayout {
         max_panes: Option<usize>,
         ignore_percent_split_sizes: bool,
     ) -> Result<Vec<(TiledPaneLayout, PaneGeom)>, &'static str> {
-        let layouts = match max_panes {
-            Some(max_panes) => {
-                let mut layout_to_split = self.clone();
-                let pane_count_in_layout = layout_to_split.pane_count();
-                if max_panes > pane_count_in_layout {
-                    // the + 1 here is because this was previously an "actual" pane and will now
-                    // become just a container, so we need to account for it too
-                    // TODO: make sure this works when the `children` node has sibling nodes,
-                    // because we really should support that
-                    let children_count = (max_panes - pane_count_in_layout) + 1;
-                    let mut extra_children = vec![TiledPaneLayout::default(); children_count];
-                    if !layout_to_split.has_focused_node() {
-                        if let Some(last_child) = extra_children.last_mut() {
-                            last_child.focus = Some(true);
-                        }
-                    }
-                    let _ = layout_to_split.insert_children_nodes(&mut extra_children);
-                } else {
-                    layout_to_split.truncate(max_panes);
-                }
-                if !layout_to_split.has_focused_node() {
-                    layout_to_split.focus_deepest_pane();
-                }
+        // let layouts = match max_panes {
+        //     Some(max_panes) => {
+        //         let mut layout_to_split = self.clone();
+        //         let pane_count_in_layout = layout_to_split.pane_count();
+        //         if false && max_panes > pane_count_in_layout {
+        //             // the + 1 here is because this was previously an "actual" pane and will now
+        //             // become just a container, so we need to account for it too
+        //             // TODO: make sure this works when the `children` node has sibling nodes,
+        //             // because we really should support that
+        //             let children_count = (max_panes - pane_count_in_layout) + 1;
+        //             let mut extra_children = vec![TiledPaneLayout::default(); children_count];
+        //             if !layout_to_split.has_focused_node() {
+        //                 if let Some(last_child) = extra_children.last_mut() {
+        //                     last_child.focus = Some(true);
+        //                 }
+        //             }
+        //             let _ = layout_to_split.insert_children_nodes(&mut extra_children);
+        //         } else {
+        //             layout_to_split.truncate(max_panes);
+        //         }
+        //         if !layout_to_split.has_focused_node() {
+        //             layout_to_split.focus_deepest_pane();
+        //         }
 
-                split_space(space, &layout_to_split, space, ignore_percent_split_sizes)?
-            },
-            None => split_space(space, self, space, ignore_percent_split_sizes)?,
-        };
+        //         split_space(space, &layout_to_split, space, ignore_percent_split_sizes)?
+        //     },
+        //     None => split_space(space, self, space, ignore_percent_split_sizes)?,
+        // };
+        let layouts = split_space(space, self, space, ignore_percent_split_sizes)?;
         for (_pane_layout, pane_geom) in layouts.iter() {
             if !pane_geom.is_at_least_minimum_size() {
                 return Err("No room on screen for this layout!");
@@ -1026,16 +1027,16 @@ impl TiledPaneLayout {
                 drop(std::mem::replace(self, first_child));
             }
             self.children.clear();
-        } else if max_panes <= self.children.len() {
-            self.children.truncate(max_panes);
-            self.children.iter_mut().for_each(|l| l.children.clear());
+        // } else if max_panes <= self.children.len() {
+        //     self.children.truncate(max_panes);
+        //     self.children.iter_mut().for_each(|l| l.children.clear());
         } else {
-            let mut remaining_panes = max_panes
-                - self
-                    .children
-                    .iter()
-                    .filter(|c| c.children.is_empty())
-                    .count();
+            let mut remaining_panes = max_panes;
+            //     - self
+            //         .children
+            //         .iter()
+            //         .filter(|c| c.children.is_empty())
+            //         .count();
             for child in self.children.iter_mut() {
                 if remaining_panes > 1 && child.children.len() > 0 {
                     remaining_panes =

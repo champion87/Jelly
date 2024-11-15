@@ -1,0 +1,33 @@
+~/ARAZellij/zellij
+cargo xtask run
+~/.config/zellij
+
+10:00 - 11:15 First compilation (of original source code)
+11:15 - 12:05 Set keybinding in the 'default.kdl' config file but it doesn't work
+12:15 Found the real config file
+14:38 Found the implementation of NewPane
+
+
+
+Action:: is an enum
+fn to_kdl(&self)
+
+fn serialize_mode_keybinds(
+        &self,
+        keybinds: &BTreeMap<KeyWithModifier, Vec<Action>>,
+    ) -> KdlDocument
+
+here the nodes are being used.
+research over:
+pane {
+    right
+}
+
+
+
+false &&
+
+NewPane is defined
+/// HERE ///
+
+ctrl shift f the above string

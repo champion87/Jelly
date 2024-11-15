@@ -453,6 +453,8 @@ pub enum CliAction {
     TogglePaneFrames,
     /// Toggle between sending text commands to all panes on the current tab and normal mode.
     ToggleActiveSyncTab,
+    /// lol
+    Fourify,
     /// Open a new pane in the specified direction [right|down]
     /// If no direction is specified, will try to use the biggest available space.
     NewPane {

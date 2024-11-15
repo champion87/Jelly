@@ -816,9 +816,9 @@ impl<'a> FloatingPaneGrid<'a> {
                         return Some(geom_with_current_offset);
                     } else if !pane_geom_is_inside_viewport($viewport, &geom_with_current_offset) {
                         break;
-                    } else if offset > MAX_PANES {
-                        // this is mostly to kill the loop no matter what
-                        break;
+                    // } else if offset > MAX_PANES {
+                    //     // this is mostly to kill the loop no matter what
+                    //     break;
                     } else {
                         offset += 2;
                     }
